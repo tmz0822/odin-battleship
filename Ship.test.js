@@ -23,4 +23,12 @@ test('the ship sunks when the number of hits equal to its length', () => {
   expect(ship.isSunk()).toBe(false);
   ship.hit();
   expect(ship.isSunk()).toBe(true);
+
+  const ship2 = new Ship(5);
+  ship2.hit();
+  ship2.hit();
+  ship2.hit();
+  ship2.hit();
+  ship2.hit();
+  expect(ship2.isSunk()).toBe(true);
 });
