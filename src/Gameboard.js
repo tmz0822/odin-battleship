@@ -46,6 +46,11 @@ export default class Gameboard {
     return true;
   }
 
+  resetBoard() {
+    this.grid = new Array(10).fill().map(() => new Array(10).fill(null));
+    this.ships = [];
+  }
+
   isAllShipSunk() {
     return this.ships.every((ship) => ship.isSunk());
   }

@@ -12,13 +12,24 @@ import { createBoard, updateBoard, toggleTurn } from './domManager.js';
 const player1 = new Player('player1');
 const player2 = new Player('computer');
 let computerCoordinates = generatePossibleCoordinates();
+const player1Btn = document.getElementById('player1Btn');
+
+player1Btn.addEventListener('click', () => {
+  const shipCoordinates = generateShips();
+  player1.gameboard.resetBoard();
+  player1.gameboard.placeShip(new Ship(2, shipCoordinates[0]));
+  player1.gameboard.placeShip(new Ship(3, shipCoordinates[1]));
+  player1.gameboard.placeShip(new Ship(4, shipCoordinates[2]));
+  player1.gameboard.placeShip(new Ship(4, shipCoordinates[3]));
+  player1.gameboard.placeShip(new Ship(5, shipCoordinates[4]));
+  updateBoard(player1);
+});
 
 function init() {
   const gridContainer = document.querySelector('.grid-container');
 
   createBoard(player1);
   createBoard(player2);
-  testCode(player1, player2);
 
   const player1Grid = gridContainer.querySelector(`.${player1.name}`);
   // Initially, its player 1 turn to attack so player 1's gameboard is disabled
@@ -31,6 +42,56 @@ function init() {
   player2Grid.addEventListener('click', (e) => {
     handleClick(e, player2);
   });
+}
+
+init();
+
+function generateShipCoordinates(length, occupied) {
+  const directions = [
+    [0, 1], // Horizontal (right)
+    [1, 0], // Vertical (down)
+  ];
+
+  let shipCoords;
+  let validPlacement = false;
+
+  while (!validPlacement) {
+    const startX = Math.floor(Math.random() * 10);
+    const startY = Math.floor(Math.random() * 10);
+    const [dx, dy] = directions[Math.floor(Math.random() * 2)];
+
+    shipCoords = [];
+    console.log('generating...');
+    for (let i = 0; i < length; i++) {
+      const x = startX + i * dx;
+      const y = startY + i * dy;
+
+      if (x >= 10 || y >= 10 || occupied.has(`${x},${y}`)) {
+        break;
+      }
+      shipCoords.push([x, y]);
+    }
+
+    if (shipCoords.length === length) {
+      validPlacement = true;
+      shipCoords.forEach(([x, y]) => occupied.add(`${x},${y}`));
+    }
+  }
+
+  return shipCoords;
+}
+
+function generateShips() {
+  const occupied = new Set();
+
+  const shipLengths = [2, 3, 3, 4, 5];
+  const shipCoordinates = [];
+
+  for (const length of shipLengths) {
+    shipCoordinates.push(generateShipCoordinates(length, occupied));
+  }
+
+  return shipCoordinates;
 }
 
 function handleClick(e, player) {
@@ -84,8 +145,6 @@ function generatePossibleCoordinates() {
   }
   return coordinates;
 }
-
-init();
 
 function testCode(player1, player2) {
   player1.gameboard.placeShip(
