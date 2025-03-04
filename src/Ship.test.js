@@ -5,7 +5,6 @@ test('able to create Ship objects', () => {
   expect(ship).toEqual({
     length: 2,
     hits: 0,
-    sunk: false,
   });
 });
 

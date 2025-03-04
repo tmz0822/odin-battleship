@@ -3,7 +3,6 @@ export default class Ship {
     this.length = length;
     this.coordinates = coordinates;
     this.hits = 0;
-    this.sunk = false;
   }
 
   hit() {
@@ -11,7 +10,6 @@ export default class Ship {
   }
 
   isSunk() {
-    this.sunk = this.length === this.hits;
-    return this.sunk;
+    return this.hits >= this.length;
   }
 }
