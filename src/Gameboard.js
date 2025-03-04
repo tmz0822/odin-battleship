@@ -20,14 +20,17 @@ export default class Gameboard {
    */
   receiveAttack(coordinate) {
     const [x, y] = coordinate;
+
     if (this.grid[x][y] >= 2 && this.grid[x][y] !== 'O') {
       // ship attacked
       // find the ship and update hits
       const ship = this.ships.find((ship) =>
         ship.coordinates.find(
-          (coordinate) => coordinate[0] === x && coordinate[1] === y
+          (coordinate) =>
+            coordinate[0] === Number(x) && coordinate[1] === Number(y)
         )
       );
+      console.log(ship);
       ship.hit();
       this.grid[x][y] = 'O';
       return ship;

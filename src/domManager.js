@@ -4,15 +4,10 @@
  * Display messages..
  */
 
-function renderBoard(player) {
+function createBoard(player) {
   const gridContainer = document.querySelector('.grid-container');
-  // Clear the previous board
-  const playerGrid = gridContainer.querySelector(`.${player.name}`);
-  if (playerGrid !== null) {
-    playerGrid.remove();
-  }
 
-  // Render/update the board
+  // Create the board
   const grid = document.createElement('div');
   grid.classList.add(player.name);
   grid.classList.add('game-grid');
@@ -20,15 +15,13 @@ function renderBoard(player) {
   const board = player.gameboard.grid;
   for (let i = 0; i < board.length; i++) {
     const row = document.createElement('div');
+    row.dataset.id = i;
     row.classList.add('row');
+
     for (let j = 0; j < board[0].length; j++) {
       const cell = document.createElement('div');
+      cell.dataset.id = `${i}${j}`;
       cell.classList.add('cell');
-      cell.classList.add(`${i}${j}`);
-
-      if (board[i][j] !== null) {
-        cell.textContent = board[i][j];
-      }
 
       row.appendChild(cell);
     }
@@ -38,4 +31,39 @@ function renderBoard(player) {
   }
 }
 
-export { renderBoard };
+function updateBoard(player, coordinate = null) {
+  const playerGrid = document.querySelector(`.${player.name}`);
+  const board = player.gameboard.grid;
+
+  // First time update(when user placing boats)
+  if (coordinate === null) {
+    playerGrid.replaceChildren();
+    for (let i = 0; i < board.length; i++) {
+      const row = document.createElement('div');
+      row.dataset.id = i;
+      row.classList.add('row');
+
+      for (let j = 0; j < board[0].length; j++) {
+        const cell = document.createElement('div');
+        cell.dataset.id = `${i}${j}`;
+        cell.classList.add('cell');
+
+        if (board[i][j] !== null) {
+          cell.textContent = board[i][j];
+        }
+
+        row.appendChild(cell);
+      }
+      playerGrid.appendChild(row);
+    }
+  } else {
+    // Else we just update the cell based on user action on specific coordinates
+    const [x, y] = coordinate;
+    const cell = playerGrid
+      .querySelector(`[data-id="${x}"]`)
+      .querySelector(`[data-id="${x}${y}"]`);
+    cell.textContent = board[x][y];
+  }
+}
+
+export { createBoard, updateBoard };
