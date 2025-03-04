@@ -42,6 +42,15 @@ function init() {
   player2Grid.addEventListener('click', (e) => {
     handleClick(e, player2);
   });
+
+  // Randomize computer ships
+  const shipCoordinates = generateShips();
+  player2.gameboard.placeShip(new Ship(2, shipCoordinates[0]));
+  player2.gameboard.placeShip(new Ship(3, shipCoordinates[1]));
+  player2.gameboard.placeShip(new Ship(3, shipCoordinates[2]));
+  player2.gameboard.placeShip(new Ship(4, shipCoordinates[3]));
+  player2.gameboard.placeShip(new Ship(5, shipCoordinates[4]));
+  updateBoard(player2);
 }
 
 init();
@@ -61,7 +70,7 @@ function generateShipCoordinates(length, occupied) {
     const [dx, dy] = directions[Math.floor(Math.random() * 2)];
 
     shipCoords = [];
-    console.log('generating...');
+
     for (let i = 0; i < length; i++) {
       const x = startX + i * dx;
       const y = startY + i * dy;
@@ -112,18 +121,18 @@ function handleClick(e, player) {
     updateBoard(player, coordinate);
     toggleTurn();
   }
-
-  gameEnds();
+  checkGameEnds();
 }
 
-function gameEnds() {
+function checkGameEnds() {
+  console.log('run');
   if (player1.gameboard.isAllShipSunk()) {
+    document.querySelector('.message').textContent = 'Player 2 wins';
     console.log('Player 2 wins');
   } else if (player2.gameboard.isAllShipSunk()) {
+    document.querySelector('.message').textContent = 'Player 1 wins';
     console.log('Player 1 wins');
   }
-
-  return player1.gameboard.isAllShipSunk() || player2.gameboard.isAllShipSunk();
 }
 
 function computerMove() {

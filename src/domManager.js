@@ -37,6 +37,7 @@ function updateBoard(player, coordinate = null) {
 
   // First time update(when user placing boats)
   if (coordinate === null) {
+    console.log('updating');
     playerGrid.replaceChildren();
     for (let i = 0; i < board.length; i++) {
       const row = document.createElement('div');
@@ -48,8 +49,10 @@ function updateBoard(player, coordinate = null) {
         cell.dataset.id = `${i}${j}`;
         cell.classList.add('cell');
 
-        if (board[i][j] !== null) {
-          cell.textContent = board[i][j];
+        if (player.name !== 'computer') {
+          if (board[i][j] !== null) {
+            cell.textContent = board[i][j];
+          }
         }
 
         row.appendChild(cell);
@@ -59,6 +62,8 @@ function updateBoard(player, coordinate = null) {
   } else {
     // Else we just update the cell based on user action on specific coordinates
     const [x, y] = coordinate;
+
+    console.log('update square');
 
     const cell = playerGrid
       .querySelector(`[data-id="${x}"]`)
