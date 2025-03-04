@@ -59,11 +59,20 @@ function updateBoard(player, coordinate = null) {
   } else {
     // Else we just update the cell based on user action on specific coordinates
     const [x, y] = coordinate;
+
     const cell = playerGrid
       .querySelector(`[data-id="${x}"]`)
       .querySelector(`[data-id="${x}${y}"]`);
     cell.textContent = board[x][y];
+
+    // user cannot click on the same coordinate twice
+    cell.classList.add('disabled');
   }
 }
 
-export { createBoard, updateBoard };
+function toggleTurn() {
+  const playerGrids = document.querySelectorAll('.game-grid');
+  playerGrids.forEach((grid) => grid.classList.toggle('disabled'));
+}
+
+export { createBoard, updateBoard, toggleTurn };

@@ -42,6 +42,8 @@ export default class Gameboard {
       // missed attacks
       this.grid[x][y] = 'X';
     }
+
+    return true;
   }
 
   isAllShipSunk() {
