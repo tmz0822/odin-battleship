@@ -23,17 +23,22 @@ export default class Gameboard {
     if (this.grid[x][y] >= 2 && this.grid[x][y] !== 'O') {
       // ship attacked
       // find the ship and update hits
-      const ship = this.ships.find(
-        (ship) => ship.coordinates.includes()
-        // TODO: get the attacked ship
+      const ship = this.ships.find((ship) =>
+        ship.coordinates.find(
+          (coordinate) => coordinate[0] === x && coordinate[1] === y
+        )
       );
-
       ship.hit();
       this.grid[x][y] = 'O';
+      return ship;
     } else {
       // missed attacks
       this.grid[x][y] = 'X';
     }
+  }
+
+  isAllShipSunk() {
+    return this.ships.every((ship) => ship.isSunk());
   }
 }
 new Gameboard();
