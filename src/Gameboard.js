@@ -21,6 +21,11 @@ export default class Gameboard {
   receiveAttack(coordinate) {
     const [x, y] = coordinate;
 
+    // If the
+    if (this.grid[x][y] === 'O' || this.grid[x][y] === 'X') {
+      throw new Error('same coordinate cannot be attacked twice');
+    }
+
     if (this.grid[x][y] >= 2 && this.grid[x][y] !== 'O') {
       // ship attacked
       // find the ship and update hits
@@ -30,7 +35,6 @@ export default class Gameboard {
             coordinate[0] === Number(x) && coordinate[1] === Number(y)
         )
       );
-      console.log(ship);
       ship.hit();
       this.grid[x][y] = 'O';
       return ship;

@@ -43,6 +43,14 @@ test('receiveAttack determines if the attack hits a ship and update the ship hit
   expect(attackedShip.hits === 1);
 });
 
+test('a coordinate cannot receive attack for more than once', () => {
+  const gameboard = new Gameboard();
+  gameboard.receiveAttack([1, 1]);
+  expect(() => gameboard.receiveAttack([1, 1])).toThrow(
+    'same coordinate cannot be attacked twice'
+  );
+});
+
 test('able to keep track of missed attacks', () => {
   const gameboard = new Gameboard();
   const ship = new Ship(2, [
