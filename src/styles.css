@@ -1,3 +1,19 @@
-body {
-  background: red;
+.grid-container {
+  display: grid;
+  gap: 2rem;
+}
+
+.game-grid {
+  color: red;
+}
+
+.row {
+  display: flex;
+}
+
+.cell {
+  border: 1px solid blue;
+  box-sizing: border-box;
+  width: 40px;
+  height: 40px;
 }

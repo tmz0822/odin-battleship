@@ -41,4 +41,3 @@ export default class Gameboard {
     return this.ships.every((ship) => ship.isSunk());
   }
 }
-new Gameboard();

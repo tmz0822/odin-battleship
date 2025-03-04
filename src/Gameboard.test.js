@@ -12,6 +12,24 @@ test('able to place ships at specific coordinates on the gameboard', () => {
   expect(gameboard.grid[1][2]).toBe(2);
 });
 
+test.skip('is not able to place ships at specific coordinates that are already occupied', () => {
+  // TODO
+  const gameboard = new Gameboard();
+  const ship = new Ship(2, [
+    [1, 1],
+    [1, 2],
+  ]);
+  gameboard.placeShip(ship);
+  const ship2 = new Ship(3, [
+    [1, 1],
+    [1, 2],
+    [1, 3],
+  ]);
+  expect(() => gameboard.placeShip(ship2)).toThrow(
+    'The space is already occupied by another ship!'
+  );
+});
+
 test('receiveAttack determines if the attack hits a ship and update the ship hits', () => {
   const gameboard = new Gameboard();
   const ship = new Ship(2, [
